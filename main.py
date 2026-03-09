@@ -30,10 +30,16 @@ class Produto(Base):
     # Preço do produto - (Float)
     preco = Column(Float)
 
+    estoque = Column(Integer)
+
+    ativo = Column(Boolean)
+
     # Método construtor
-    def __init__(self, nome, preco):
+    def __init__(self, nome, preco, estoque, ativo):
         self.nome = nome
         self.preco = preco
+        self.estoque = estoque
+        self.ativo = ativo
 
     #Representação do objeto ao imprimir
     def __repr__(self):
@@ -46,6 +52,21 @@ engine = create_engine("sqlite:///estoque.db", echo=True)
 
 # Criar a tecela no banco de dados
 Base.metadata.create_all(engine)
+
+#criar uma fabrica de sessões com banco
+Session = sessionmaker(bind=engine)
+
+#criar a sessão unica = carrinho
+session = Session()
+
+#criar um objeto
+produto1 = Produto("Notebook", 5000, 10, True)
+
+session.add(produto1)
+session.commit()
+
+
+ 
  
     
 
