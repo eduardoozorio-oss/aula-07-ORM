@@ -61,13 +61,39 @@ session = Session()
 
 #criar um objeto
 produto1 = Produto("Notebook", 5000, 10, True)
+produto2 = Produto("Teclado", 250, 30, True)
+produto3 = Produto("Mouse", 120, 72, True)
 
 session.add(produto1)
+session.add(produto2)
+session.add(produto3)
 session.commit()
 
 
- 
- 
-    
+# Listar - Buscar - Ler
+
+# Buscar todos os produtos do meu banco
+produtos = session.query(Produto).all()
+for p in produtos:
+    print(f"Nome do produto {p.nome}")
 
 
+'''# Buscar o produto pelo id
+produto_id = session.query(Produto).filter(Produto.id == 1).first()
+
+produto_id = session.query(Produto).filter(Produto.preco > 1000).all()
+'''
+
+produto_id2 = session.query(Produto).filter_by(id=1).first()
+"""print(produto_id2)"""
+
+#Produtos organizados
+produtos_organizados = session.query(Produto).order_by(Produto.estoque).all()
+produtos_organizados2 = session.query(Produto).order_by(Produto.estoque).desc().all()
+"""for produto in produtos_organizados:
+    print(produto) """
+
+
+# Top produtos ou listar a busca
+estoque_baixo = session.query(Produto).filter(Produto.estoque <= 50).limit(3).all()
+print(estoque_baixo)
