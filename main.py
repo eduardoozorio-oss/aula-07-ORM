@@ -60,7 +60,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 #criar um objeto
-produto1 = Produto("Notebook", 5000, 10, True)
+produto1 = Produto("Notebook positivo nada negativo ", 5000, 10, True)
 produto2 = Produto("Teclado", 250, 30, True)
 produto3 = Produto("Mouse", 120, 72, True)
 
@@ -89,7 +89,7 @@ produto_id2 = session.query(Produto).filter_by(id=1).first()
 
 #Produtos organizados
 produtos_organizados = session.query(Produto).order_by(Produto.estoque).all()
-produtos_organizados2 = session.query(Produto).order_by(Produto.estoque).desc().all()
+produtos_organizados2 = session.query(Produto).order_by(Produto.estoque.desc()).all()
 """for produto in produtos_organizados:
     print(produto) """
 
@@ -97,3 +97,31 @@ produtos_organizados2 = session.query(Produto).order_by(Produto.estoque).desc().
 # Top produtos ou listar a busca
 estoque_baixo = session.query(Produto).filter(Produto.estoque <= 50).limit(3).all()
 print(estoque_baixo)
+
+
+#Atualizar - Update
+
+buscar_produto = session.query(Produto).filter_by(id=4).first()
+buscar_produto.preco = 310.0
+
+session.commit()
+
+
+#deletar (Delete)
+"""deletar_produto = session.query(Produto).filter_by(id=2).first()
+
+# remover o produto 
+session.delete(deletar_produto)
+
+session.commit()"""
+
+
+
+
+
+
+
+#busca parcial
+produtos_note = session.query(Produto).filter(Produto.nome.like("%book")).all()
+for p in produtos_note:
+    print(p)
